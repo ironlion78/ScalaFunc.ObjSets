@@ -133,10 +133,12 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
       //println(acc.toString)
-      def a = left.filterAcc(p, acc)
-      def b = right.filterAcc(p, a)
-      if (p(elem)) b.incl(elem)
-      else b
+      if (this.isEmpty) this
+      else {
+        def a = left.filterAcc(p, acc)
+        def b = right.filterAcc(p, a)
+        if (p(elem)) b.incl(elem) else b
+      }
     }
 
   def union (that: TweetSet): TweetSet = {
@@ -216,10 +218,8 @@ object GoogleVsApple {
   val google = List("android", "Android", "galaxy", "Galaxy", "nexus", "Nexus")
   val apple = List("ios", "iOS", "iphone", "iPhone", "ipad", "iPad")
 
-  lazy val googleTweets: TweetSet = {
-
-  }
-  lazy val appleTweets: TweetSet = ???
+  lazy val googleTweets: TweetSet = allTweets.filter(t => google.exists(s => t.text.contains(s)))
+  lazy val appleTweets: TweetSet = allTweets.filter(t => apple.exists(s => t.text.contains(s)))
   
   /**
    * A list of all tweets mentioning a keyword from either apple or google,
