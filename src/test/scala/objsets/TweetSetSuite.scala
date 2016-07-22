@@ -5,6 +5,7 @@ import org.scalatest.FunSuite
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import TweetReader._
 
 @RunWith(classOf[JUnitRunner])
 class TweetSetSuite extends FunSuite {
@@ -68,6 +69,14 @@ class TweetSetSuite extends FunSuite {
       val trends = set5.descendingByRetweet
       assert(!trends.isEmpty)
       assert(trends.head.user == "a" || trends.head.user == "b")
+    }
+  }
+
+  test("filter: tweets with 321 retweets") {
+    new TestSets {
+      val filtered = allTweets.filter(t => t.retweets == 321)
+      assert(size(filtered) == 1)
+      //println(size(filtered).toString())
     }
   }
 

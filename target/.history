@@ -32,7 +32,19 @@ test
 compile
 test
 submit shop.leon@gmail.com jABEmnCHDaOxKb6z
-submit shop.leon@gmail.com h8Xek1DJyHfKjHGn
-git status
 ls
+ccsbt
+sbt
+exit
+compile
+test
+compile
+test
+compile
+test
+git status
+test
+compile
+test
+submit shop.leon@gmail.com lN29dLxhToxJRCXl
 exit

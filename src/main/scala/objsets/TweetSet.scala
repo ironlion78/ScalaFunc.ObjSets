@@ -129,27 +129,19 @@ class Empty extends TweetSet {
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
+
   def filter (p: Tweet => Boolean): TweetSet = filterAcc(p, new Empty)
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
-      //println(acc.toString)
-      if (this.isEmpty) this
-      else {
-        def a = left.filterAcc(p, acc)
-        def b = right.filterAcc(p, a)
-        if (p(elem)) b.incl(elem) else b
-      }
-    }
-
-  def union (that: TweetSet): TweetSet = {
-    this.left union this.right union that.incl(elem)
+      if (p(elem)) right.filterAcc(p, left.filterAcc(p, acc)).incl(elem)
+      else right.filterAcc(p, left.filterAcc(p, acc))
   }
+
+  def union (that: TweetSet): TweetSet = (this.left union (this.right union that)) incl elem //order/grouping matters!!
 
   def isEmpty = false
 
   def mostRetweeted: Tweet = {
-    // max most (left) most (right) and elem
-    // ties case?
     def max (a: Tweet, b: Tweet): Tweet = if (a.retweets > b.retweets) a else b //b wins ties
 
     if (left.isEmpty) {
